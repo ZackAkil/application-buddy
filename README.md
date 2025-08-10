@@ -99,10 +99,6 @@ To add new features:
 - **Context Menu Not Working**: Make sure you've granted the extension the necessary permissions
 - **File Upload Problems**: Check that your files are in supported formats (.txt, .pdf, .doc, .docx)
 
-## License
-
-This project is available as open source under the terms of the MIT License.
-
 ---
 
 Built with ❤️ to make application processes easier.
