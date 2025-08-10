@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📝 Application Buddy</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+        color: #333;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      h1 {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+      h2 {
+        color: #2980b9;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        font-size: 1.3em;
+        border-left: 4px solid #3498db;
+        padding-left: 10px;
+      }
+      h3 {
+        color: #3498db;
+        margin-top: 15px;
+        font-size: 1.1em;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      input[type="file"] {
+        margin-bottom: 10px;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-family: inherit;
+        resize: vertical;
+      }
+      input[type="password"] {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 5px;
+      }
+      .file-list {
+        margin-top: 25px;
+      }
+      .file-item {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .file-item h3 {
+        margin-top: 0;
+        color: #2c3e50;
+      }
+      .section {
+        margin-bottom: 25px;
+        padding: 15px;
+        background-color: white;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      #answer-container {
+        background-color: #f0f7fb;
+        border-left: 4px solid #3498db !important;
+      }
+      #conversation-history {
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: white;
+      }
+      .message-item {
+        margin-bottom: 10px;
+        padding: 8px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>📝 Application Buddy</h1>
+
+      <!-- Question to answer - MOVED TO TOP -->
+      <div class="section">
+        <h2>Ask a Question</h2>
+        <textarea
+          id="question-input"
+          rows="3"
+          cols="40"
+          placeholder="Enter your question here..."
+        ></textarea>
+        <button id="submit-question-btn">Submit Question</button>
+        <div
+          id="answer-container"
+          style="
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            display: none;
+            border-radius: 4px;
+          "
+        >
+          <h3>Answer:</h3>
+          <div id="answer-text" style="line-height: 1.5"></div>
+        </div>
+
+        <!-- Conversation History -->
+        <div id="conversation-history-container" style="margin-top: 25px">
+          <h3>Conversation History</h3>
+          <div id="conversation-history">
+            <p id="no-history-message">No conversation history yet.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Context Sources Section -->
+      <div class="section">
+        <h2>Context Sources</h2>
+
+        <!-- Simple file upload -->
+        <div style="margin-bottom: 20px">
+          <h3>Upload Files</h3>
+          <input type="file" id="file-input" accept=".txt,.pdf,.doc,.docx" />
+          <button id="upload-btn">Upload</button>
+        </div>
+
+        <!-- Extra context -->
+        <div>
+          <h3>Add Extra Context</h3>
+          <textarea
+            id="extra-context"
+            rows="5"
+            cols="40"
+            placeholder="Enter additional context here..."
+          ></textarea>
+          <button id="add-context-btn">Add Context</button>
+        </div>
+
+        <!-- File list -->
+        <div class="file-list" style="margin-top: 20px">
+          <h3>Your Files & Context</h3>
+          <div id="files-container">
+            <!-- Files will be listed here -->
+            <p id="no-files-message">No files uploaded yet.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Section -->
+      <div class="section">
+        <h2>Settings</h2>
+        <div id="api-key-container" style="margin-bottom: 15px">
+          <label for="gemini-api-key">Gemini API Key:</label>
+          <input
+            type="password"
+            id="gemini-api-key"
+            placeholder="Enter your Gemini API key"
+            style="width: 250px"
+          />
+          <button id="save-api-key-btn">Save Key</button>
+          <span
+            id="api-key-status"
+            style="margin-left: 10px; font-size: 0.8em; font-weight: bold"
+          ></span>
+        </div>
+        <div>
+          <button id="clear-history-btn" title="Clear conversation history">
+            Clear Conversation History
+          </button>
+          <span
+            id="history-status"
+            style="margin-left: 10px; font-size: 0.8em; font-weight: bold"
+          ></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="gemini-api.js"></script>
+    <script src="sidebar.js"></script>
+  </body>
+</html>
