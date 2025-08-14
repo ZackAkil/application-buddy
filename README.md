@@ -1,5 +1,5 @@
 # 📝 Application Buddy
-(⚠️ Experimental: use at own risk)
+⚠️ Experimental: use at own risk
 
 ![Application Buddy](application_buddy.png)
 
