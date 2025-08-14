@@ -1,5 +1,7 @@
 # 📝 Application Buddy
 
+![Application Buddy](application_buddy.png)
+
 A Chrome extension that helps you answer questions using your uploaded documents and context with the power of Google's Gemini AI.
 
 ## Features

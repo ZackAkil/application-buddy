@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const historyStatus = document.getElementById('history-status');
   const conversationHistoryContainer = document.getElementById('conversation-history');
   const noHistoryMessage = document.getElementById('no-history-message');
+  const copyAnswerBtn = document.getElementById('copy-answer-btn');
   
   // Array to store uploaded files
   let uploadedFiles = [];
@@ -79,6 +80,38 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Display conversation history if available
   displayConversationHistory();
+  
+  // Add event listener for copy answer button
+  copyAnswerBtn.addEventListener('click', function() {
+    const textToCopy = answerText.textContent;
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          // Visual feedback that copy was successful
+          const originalText = copyAnswerBtn.innerHTML;
+          copyAnswerBtn.innerHTML = '<span>✓ Copied!</span>';
+          copyAnswerBtn.style.backgroundColor = '#52c41a';
+          
+          // Reset button after 2 seconds
+          setTimeout(() => {
+            copyAnswerBtn.innerHTML = originalText;
+            copyAnswerBtn.style.backgroundColor = '';
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Error copying text: ', err);
+          // Visual feedback that copy failed
+          copyAnswerBtn.innerHTML = '<span>❌ Failed</span>';
+          copyAnswerBtn.style.backgroundColor = '#ff4d4f';
+          
+          // Reset button after 2 seconds
+          setTimeout(() => {
+            copyAnswerBtn.innerHTML = '<span>📋 Copy</span>';
+            copyAnswerBtn.style.backgroundColor = '';
+          }, 2000);
+        });
+    }
+  });
   
   // Add event listener to upload button
   uploadBtn.addEventListener('click', function() {
